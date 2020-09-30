@@ -77,4 +77,13 @@
     text-align: left;
     padding: 5px 10px;
 }
+.geoLink{
+    text-decoration: none;
+    font-weight: bold;
+    color: #0f7afc; 
+}
+.geoLink:hover{ 
+    color: red;
+}
+
 
