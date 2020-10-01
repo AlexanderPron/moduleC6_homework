@@ -24,12 +24,14 @@ geoBtn.addEventListener("click", ()=>{
     if ("geolocation" in navigator) {
         navigator.geolocation.getCurrentPosition((position) => {
             const { coords } = position;
+            const sendData = {"latitude": coords.latitude, "longitude": coords.longitude};
             const websocket = new WebSocket('wss://echo.websocket.org/');
             websocket.onopen = function(evt){
-                websocket.send(coords);
+                websocket.send(JSON.stringify(sendData));
             }
             websocket.onmessage = function(evt){
-                currLogChat += `<div class = "client-request"><a class = "geoLink" href = "https://www.openstreetmap.org/#map=15/${evt.data.latitude}/${evt.data.longitude}" target="_blank">Я тут</a></div>`;
+                const gotJson = JSON.parse(evt.data);
+                currLogChat += `<div class = "client-request"><a class = "geoLink" href = "https://www.openstreetmap.org/#map=15/${gotJson.latitude}/${gotJson.longitude}" target="_blank">Я тут</a></div>`;
                 document.querySelector(".dialog-div").innerHTML = currLogChat;
                 websocket.close;
             }
